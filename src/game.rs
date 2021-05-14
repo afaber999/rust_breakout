@@ -89,9 +89,9 @@ impl Game {
     pub fn render( &mut self, _dt: f32) {
         if let Some(objs) = &self.globjs {
 
-            let position = glm::vec2(600.0f32, 300.0f32);
+            let position = glm::vec2(200.0f32, 200.0f32);
             let rotate = 45.0f32;
-            let size = glm::vec2(100.0f32, 100.0f32);
+            let size = glm::vec2(300.0f32, 400.0f32);
             let color = glm::vec3(0.0f32, 1.0f32,0.0f32);
 
             objs.sprite_renderer.draw(
