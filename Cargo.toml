@@ -1,0 +1,20 @@
+[package]
+name = "rust_breakout"
+version = "0.1.0"
+authors = ["Albert Faber <albert@fabtronics.nl>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+glutin="0.26"
+nalgebra-glm = "0.12"
+glow = { version = "0.9.0" }
+log = "0.4"
+anyhow = "1.0"
+thiserror = "1.0"
+bytemuck="1.5"
+image="0.23"
+#obj= {version="0.10.2", features = ["genmesh"]}
+tobj = "2.0.4"
+
