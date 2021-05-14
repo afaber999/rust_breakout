@@ -6,9 +6,7 @@ use std::rc::Rc;
 
 pub mod shader;
 pub mod texture;
-pub mod mesh;
 pub mod sprite_renderer;
-pub mod camera;
 pub mod resource_manager;
 pub mod game;
 use game::Game;

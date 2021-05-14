@@ -69,14 +69,11 @@ impl SpriteRenderer {
         model = glm::translate(&model, &glm::vec3(-0.5f32 * size.x, -0.5f32 * size.y, 0.0f32));
         model = glm::scale(&model, &glm::vec3(size.x, size.y, 1.0f32)); 
   
-       // let model = glm::translate(&glm::Mat4::identity(), &glm::vec3(0.0,0.0,0.0) );
-
         shader.set_uniform_mat4("model", &model);
         shader.set_uniform_vec3("spriteColor", &color);
   
         unsafe {
             self.gl.active_texture(glow::TEXTURE0);
-            println!("draw sprite");
             texture.bind();
             self.gl.bind_vertex_array( Some(self.vao));
             self.gl.draw_arrays(glow::TRIANGLES, 0, 6);

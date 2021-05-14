@@ -40,7 +40,8 @@ impl ResourceManager {
         }
 
         println!("Loading image: {}", img_file_name);
-        let img = image::open(img_file_name).unwrap().flipv().into_rgba8();
+        //let img = image::open(img_file_name).unwrap().flipv().into_rgba8();
+        let img = image::open(img_file_name).unwrap().into_rgba8();
 
         let (img_w, img_h) = img.dimensions();
         let raw_img = img.into_raw();

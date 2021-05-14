@@ -1,6 +1,5 @@
 //use glow::*;
 use std::{rc::Rc};
-use crate::camera::Camera;
 use crate::sprite_renderer::SpriteRenderer;
 use crate::resource_manager::ResourceManager;
 use crate::shader::Shader;
@@ -16,7 +15,6 @@ enum GameState {
 }
 
 struct GlObjs{
-    camera : Camera,
     sprite_renderer  : SpriteRenderer,
     sprite_shader  : Rc<Shader>,
     face_texture : Rc<Texture>,
@@ -68,16 +66,12 @@ impl Game {
         let sprite_renderer = SpriteRenderer::new(
             self.resource_manager.clone());
 
-
-        let camera = Camera::new(glm::vec3( 0.0, 0.0, 5.0));
-
         let face_texture = self.resource_manager.load_texture(
             "resources/textures/awesomeface.png", 
             "face".into(),
         );
 
         self.globjs = Some( GlObjs {
-            camera,
             sprite_shader,
             sprite_renderer,
             face_texture,
@@ -96,7 +90,7 @@ impl Game {
         if let Some(objs) = &self.globjs {
 
             let position = glm::vec2(600.0f32, 300.0f32);
-            let rotate = 0.0f32;
+            let rotate = 45.0f32;
             let size = glm::vec2(100.0f32, 100.0f32);
             let color = glm::vec3(0.0f32, 1.0f32,0.0f32);
 
