@@ -176,13 +176,18 @@ impl Game {
                     position.x = ( position.x + velocity ).min(self.width as f32 - width_div_2);
                     objs.player.set_position(position);
                 },
+                VirtualKeyCode::Space => {
+                    objs.ball.un_stuck();
+                },                
                 _ => (),
             }
         }
     }
 
-    pub fn update( _dt: f32) {
-        
+    pub fn update(&mut self, dt: f32) {
+        if let Some(objs) = self.globjs.borrow_mut() {
+            objs.ball.do_move(dt, self.width as u32);
+        }
     }
 
     pub fn render( &mut self, _dt: f32) {

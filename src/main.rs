@@ -70,6 +70,11 @@ pub fn main() {
 
             match event {
                 Event::RedrawRequested(_) => {
+
+                    // update game state
+                    // -----------------
+                    game.update(0.016f32);
+
                     // DRAW HERE
                     gl.clear_color(0.1, 0.1, 0.1, 1.0);
                     gl.clear(glow::COLOR_BUFFER_BIT | glow::DEPTH_BUFFER_BIT);
@@ -86,7 +91,7 @@ pub fn main() {
                             Some(key) => {
                                 match key {
                                     VirtualKeyCode::Escape => *control_flow = glutin::event_loop::ControlFlow::Exit,
-                                    key => (game.process_input(0.16f32, key )),
+                                    key => (game.process_input(0.016f32, key )),
                                 }
                             },
                             _ => (),

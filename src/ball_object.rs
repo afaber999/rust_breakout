@@ -39,11 +39,15 @@ impl BallObject {
         self.game_object.draw(renderer);
     }
 
+    pub fn un_stuck(&mut self) {
+        self.stuck = false;
+    }
+ 
     pub fn do_move( &mut self, dt : f32, window_width:u32) -> glm::Vec2 {
         let mut position = self.game_object.get_position();
         let size_x = self.game_object.get_size().x;
 
-        if ! self.stuck
+        if !self.stuck
         {
             let mut velocity = self.game_object.get_velocity();
 
