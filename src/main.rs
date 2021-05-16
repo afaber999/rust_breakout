@@ -9,6 +9,9 @@ pub mod texture;
 pub mod sprite_renderer;
 pub mod resource_manager;
 pub mod game;
+pub mod game_object;
+pub mod game_level;
+
 use game::Game;
 
 use resource_manager::*;
@@ -36,7 +39,6 @@ pub fn main() {
 
         let resource_manager = Rc::new( ResourceManager::new(gl.clone()));
         let mut game = Game::new(resource_manager.clone(), SCR_WIDTH, SCR_HEIGHT);
-
 
         // OpenGL configuration
         // --------------------
@@ -72,7 +74,6 @@ pub fn main() {
                     gl.clear(glow::COLOR_BUFFER_BIT | glow::DEPTH_BUFFER_BIT);
 
                     game.render(0.0);
-
                     window.swap_buffers().unwrap();
                 },
 
@@ -84,15 +85,7 @@ pub fn main() {
                             Some(key) => {
                                 match key {
                                     VirtualKeyCode::Escape => *control_flow = glutin::event_loop::ControlFlow::Exit,
-                                    // VirtualKeyCode::W    => camera.key_interact(Directions::Forward),
-                                    // VirtualKeyCode::A    => camera.key_interact(Directions::Left),
-                                    // VirtualKeyCode::S    => camera.key_interact(Directions::Backward),
-                                    // VirtualKeyCode::D    => camera.key_interact(Directions::Right),
-                                    // VirtualKeyCode::Up   => camera.key_interact(Directions::Up),
-                                    // VirtualKeyCode::Down => camera.key_interact(Directions::Down),
-                                    // VirtualKeyCode::Left => camera.key_interact(Directions::Left),
-                                    // VirtualKeyCode::Right=> camera.key_interact(Directions::Right),
-                                    _ => (),
+                                    key => (game.process_input(0.16f32, key )),
                                 }
                             },
                             _ => (),

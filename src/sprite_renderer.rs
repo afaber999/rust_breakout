@@ -2,7 +2,6 @@ use glow::*;
 use std::ops::Drop;
 use std::rc::Rc;
 
-use crate::resource_manager::ResourceManager;
 use crate::shader::Shader;
 use crate::texture::Texture;
 
@@ -10,13 +9,12 @@ pub struct SpriteRenderer {
     gl : Rc<glow::Context>,
     vao: glow::Buffer,
     vbo: glow::Buffer,
+    shader: Rc<Shader>, 
 }
 
 impl SpriteRenderer {
     /// constructor, expects a filepath to a 3D model.
-    pub fn new( resource_manager: Rc<ResourceManager>) -> Self {
-
-        let gl = resource_manager.get_gl();
+    pub fn new(  gl : Rc<Context>, shader : Rc<Shader> ) -> Self {
 
         unsafe {
             let vao  = gl.create_vertex_array().expect("Create VAO");
@@ -54,11 +52,12 @@ impl SpriteRenderer {
                 gl,
                 vao,
                 vbo,
+                shader,
             }
         }
     }
-    pub fn draw(&self, shader: &Shader, texture: &Texture,  position: glm::Vec2, size: glm::Vec2, rotate : f32, color:glm::Vec3) {
-        shader.use_program();
+    pub fn draw(&self, texture: &Texture,  position: glm::Vec2, size: glm::Vec2, rotate : f32, color:glm::Vec3) {
+        self.shader.use_program();
         let mut model = glm::translate(&glm::Mat4::identity(), &glm::vec3(position.x,position.y,0.0f32) );
 
         // unsafe {
@@ -69,8 +68,8 @@ impl SpriteRenderer {
         model = glm::translate(&model, &glm::vec3(-0.5f32 * size.x, -0.5f32 * size.y, 0.0f32));
         model = glm::scale(&model, &glm::vec3(size.x, size.y, 1.0f32)); 
   
-        shader.set_uniform_mat4("model", &model);
-        shader.set_uniform_vec3("spriteColor", &color);
+        self.shader.set_uniform_mat4("model", &model);
+        self.shader.set_uniform_vec3("spriteColor", &color);
   
         unsafe {
             self.gl.active_texture(glow::TEXTURE0);
