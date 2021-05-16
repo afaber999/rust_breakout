@@ -6,6 +6,8 @@ use crate::sprite_renderer::SpriteRenderer;
 use crate::resource_manager::ResourceManager;
 use crate::texture::Texture;
 use crate::game_level::GameLevel;
+use crate::ball_object::BallObject;
+
 
 extern crate nalgebra_glm as glm;
 
@@ -21,6 +23,7 @@ struct GlObjs{
     face_texture : Rc<Texture>,
     background_texture : Rc<Texture>,
     player : GameObject,
+    ball : BallObject,
     game_levels : Vec<GameLevel>,
     level      : usize,  
 }
@@ -90,9 +93,13 @@ impl Game {
         );
 
         const PLAYER_SIZE : glm::Vec2 = glm::Vec2::new(100.0, 20.0); 
+        let player_position = glm::vec2(
+            (self.width as f32 - PLAYER_SIZE.x) / 2.0,
+            self.height as f32 - PLAYER_SIZE.y );
+             
 
         let player = GameObject::new(
-            glm::vec2((self.width as f32 - PLAYER_SIZE.x) / 2.0, self.height as f32 - PLAYER_SIZE.y ),
+            player_position,
             glm::vec2(100.0,20.0),
             glm::vec2(500.0,0.0),
             glm::vec3(1.0,1.0,1.0),
@@ -119,11 +126,31 @@ impl Game {
         game_levels.push(game_level);
 
 
+        // Initial velocity of the Ball
+        const INITIAL_BALL_VELOCITY : glm::Vec2 = glm::Vec2::new(100.0, -350.0);
+        // Radius of the ball object
+        const BALL_RADIUS : f32 = 12.5;
+
+        let ball_position = player_position + 
+            glm::vec2(PLAYER_SIZE.x / 2.0 - BALL_RADIUS, -BALL_RADIUS * 2.0);
+
+        let ball_texture = self.resource_manager.load_texture(
+            "resources/textures/awesomeface.png", 
+            "face".into(),
+        );
+
+        let ball = BallObject::new(
+            ball_position,
+            BALL_RADIUS,
+            INITIAL_BALL_VELOCITY,
+            ball_texture ); 
+
         self.globjs = Some( GlObjs {
             sprite_renderer,
             face_texture,
             background_texture,
             player,
+            ball, 
             game_levels,
             level : 0,
         } );
@@ -184,6 +211,8 @@ impl Game {
             );
             objs.game_levels[objs.level].draw(&objs.sprite_renderer);
             objs.player.draw(&objs.sprite_renderer);
+            objs.ball.draw(&objs.sprite_renderer);
+
         }
     }
 }

@@ -11,6 +11,7 @@ pub mod resource_manager;
 pub mod game;
 pub mod game_object;
 pub mod game_level;
+pub mod ball_object;
 
 use game::Game;
 

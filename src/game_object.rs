@@ -71,4 +71,9 @@ impl GameObject {
     pub fn set_position(&mut self, position : glm::Vec2)  {
         self.position = position;
     }
+
+    pub fn set_velocity(&mut self, velocity : glm::Vec2)  {
+        self.velocity = velocity;
+    }
+
 }
