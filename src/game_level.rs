@@ -1,5 +1,6 @@
 use std::rc::Rc;
 use crate::game_object::GameObject;
+use crate::ball_object::BallObject;
 use crate::sprite_renderer::SpriteRenderer;
 use crate::resource_manager::ResourceManager;
 
@@ -98,5 +99,14 @@ impl GameLevel {
         self.bricks.iter().any( |tile| {
             !tile.is_solid() && !tile.is_destroyed()
         })
+    }
+
+    pub fn update_ball_collisions(&mut self,  ball : &BallObject) {
+        //println!("Check with : {:?}", ball);
+        self.bricks.iter_mut().for_each(|brick| {
+            if ball.check_collision(brick) && !brick.is_solid() {
+                brick.set_destroyed();
+            }
+        });
     }
 }

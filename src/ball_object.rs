@@ -5,6 +5,7 @@ use crate::game_object::GameObject;
 use crate::sprite_renderer::SpriteRenderer;
 
 
+#[derive(Debug)]
 pub struct BallObject {
 
     game_object: GameObject,
@@ -83,5 +84,9 @@ impl BallObject {
     pub fn reset( &mut self, position : glm::Vec2,  velocity : glm::Vec2) {
         self.game_object.set_velocity( velocity );
         self.game_object.set_position( position );
-    }    
+    }
+    
+    pub fn check_collision( &self, check_obj : &GameObject) -> bool {
+        self.game_object.check_collision(check_obj)
+    }
 }

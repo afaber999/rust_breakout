@@ -1,5 +1,5 @@
 //use glow::*;
-use std::{borrow::BorrowMut, rc::Rc};
+use std::{borrow::{Borrow, BorrowMut}, rc::Rc};
 use glutin::event::VirtualKeyCode;
 use crate::game_object::GameObject;
 use crate::sprite_renderer::SpriteRenderer;
@@ -188,6 +188,7 @@ impl Game {
         if let Some(objs) = self.globjs.borrow_mut() {
             objs.ball.do_move(dt, self.width as u32);
         }
+        self.do_collisions();
     }
 
     pub fn render( &mut self, _dt: f32) {
@@ -220,6 +221,28 @@ impl Game {
 
         }
     }
+
+    fn do_collisions(&mut self)
+    {
+        if let Some(objs) = self.globjs.borrow_mut() {
+            objs.game_levels[objs.level].update_ball_collisions(&objs.ball)
+        }
+
+    // // draw background
+
+    //     for (GameObject &box : Levels[Level].Bricks)
+    // {
+    // if (!box.Destroyed)
+    // {
+    // if (CheckCollision(*Ball, box))
+    // {
+    // if (!box.IsSolid)
+    // box.Destroyed = true;
+    // }
+    // }
+    // }
+    }
+
 }
 
 impl Drop for Game {

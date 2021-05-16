@@ -4,6 +4,7 @@ use crate::texture::Texture;
 
 extern crate nalgebra_glm as glm;
 
+#[derive(Debug)]
 pub struct GameObject {
     position : glm::Vec2,
     size : glm::Vec2,
@@ -76,4 +77,18 @@ impl GameObject {
         self.velocity = velocity;
     }
 
+    pub fn check_collision( &self, check_obj : &GameObject) -> bool {
+        let p1 = self.position;
+        let s1=self.size;
+        let p2 = check_obj.position;
+        let s2 = check_obj.size;
+
+        let col_x = 
+            p1.x + s1.x >= p2.x &&
+            p2.x + s2.x  >= p1.x;
+        let col_y = 
+            p1.y + s1.y >= p2.y &&
+            p2.y + s2.y  >= p1.y;
+        return col_x && col_y;
+    }
 }
