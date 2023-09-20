@@ -7,7 +7,7 @@ use crate::texture::Texture;
 
 pub struct SpriteRenderer {
     gl : Rc<glow::Context>,
-    vao: glow::Buffer,
+    vao: glow::VertexArray,
     vbo: glow::Buffer,
     shader: Rc<Shader>, 
 }
@@ -84,7 +84,7 @@ impl SpriteRenderer {
 impl Drop for SpriteRenderer {
     fn drop(&mut self) {
         unsafe {
-            self.gl.delete_buffer(self.vao);
+            self.gl.delete_vertex_array(self.vao);
             self.gl.delete_buffer(self.vbo);
         }
     }
